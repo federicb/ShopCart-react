@@ -1,0 +1,54 @@
+.cart-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0b970b;
+    position: fixed;
+    right: 13px;
+    top: 13px;
+    z-index: 13;
+    border-radius: 9999px;
+    height: 33px;
+    width: 33px;
+    padding: 4px;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+.cart-button:hover {
+    scale: 1.2;
+}
+
+.cart {
+    background: #000;
+    display: none;
+    padding: 33px;
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    width: 200px;
+}
+.cart img {
+    width: 100%;
+    aspect-ratio: 16/9;
+}
+
+.cart li {
+    border-bottom: 1px solid #444;
+    padding-bottom: 16px;
+}
+
+.cart footer {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.cart footer button {
+    padding: 8px;
+}
+
+.cart-button ~ input:checked ~ .cart {
+    height: 100%;
+    display: block;
+}
