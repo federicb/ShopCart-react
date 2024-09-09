@@ -1,53 +1,88 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
 
 export const CartContext = createContext();
 
-export function CartProvider({ children }) {
-  const [cart, setCart] = useState([]);
+const initialCartState = [];
+const cartReducer = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "ADD_TO_CART": {
+      const { id } = payload;
 
-  const addToCart = (product) => {
-    const productInCartIndex = cart.findIndex((item) => item.id === product.id);
+      const productInCartIndex = state.findIndex((item) => item.id === id);
 
-    if (productInCartIndex >= 0) {
-      const newCart = structuredClone(cart);
-      newCart[productInCartIndex].quantity += 1;
-      return setCart(newCart);
+      if (productInCartIndex >= 0) {
+        const newCartState = structuredClone(state);
+        newCartState[productInCartIndex].quantity += 1;
+        return newCartState;
+      }
+
+      return [
+        ...state,
+        {
+          ...payload,
+          quantity: 1,
+        },
+      ];
     }
 
-    setCart((prevState) => [
-      ...prevState,
-      {
-        ...product,
-        quantity: 1,
-      },
-    ]);
+    case "DECREASE_QUANTITY": {
+      const { id } = payload;
+
+      return state
+        .map((item) =>
+          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+        )
+        .filter((item) => item.quantity > 0);
+    }
+
+    case "REMOVE_FROM_CART": {
+      const { id } = payload;
+
+      return state.filter((item) => item.id !== id);
+    }
+
+    case "CLEAR_CART": {
+      return initialCartState;
+    }
+  }
+  return state;
+};
+
+export function CartProvider({ children }) {
+  const [state, dispatch] = useReducer(cartReducer, initialCartState);
+
+  const addToCart = (product) => {
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: product,
+    });
   };
 
   const decreaseQuantity = (product) => {
-    setCart((prevState) =>
-      prevState.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity - 1 } 
-            : item
-        )
-        .filter((item) => item.quantity > 0) 
-    );
+    dispatch({
+      type: "DECREASE_QUANTITY",
+      payload: product,
+    });
   };
-  
-  
 
   const removeFromCart = (product) => {
-    setCart((prevState) => prevState.filter((item) => item.id !== product.id));
+    dispatch({
+      type: "REMOVE_FROM_CART",
+      payload: product,
+    });
   };
 
   const clearCart = () => {
-    setCart([]);
+    dispatch({
+      type: "CLEAR_CART",
+    });
   };
 
   return (
     <CartContext.Provider
       value={{
-        cart,
+        cart: state,
         addToCart,
         removeFromCart,
         decreaseQuantity,

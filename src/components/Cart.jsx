@@ -2,22 +2,7 @@ import { useId } from "react";
 import "./Cart.css";
 import { CartIcon, ClearCartIcon } from "./Icons";
 import { useCart } from "../hooks/useCart";
-
-export function CartItem({ thumbnail, title, price, quantity, addToCart, decreaseQuantity }) {
-  return (
-    <li>
-      <img src={thumbnail} alt={title} />
-      <div>
-        <strong>{title}</strong> - {price}€
-      </div>
-      <footer>
-        <small>Cantidad: {quantity}</small>
-        <button onClick={addToCart}>+</button>
-        <button onClick={decreaseQuantity}>-</button>
-      </footer>
-    </li>
-  );
-}
+import { CartItem } from "./CartItem";
 
 export function Cart() {
   const cartIconId = useId();

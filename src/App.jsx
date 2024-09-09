@@ -8,7 +8,7 @@ import { Cart } from "./components/Cart";
 import { CartProvider } from "./context/cart";
 
 function App() {
-  const { filters, setFilters, filterProducts } = useFilters();
+  const { filterProducts } = useFilters();
 
   const filteredProducts = filterProducts(initialProducts);
 
