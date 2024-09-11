@@ -5,7 +5,7 @@ export function Header() {
     <header>
       <section>
         {/* <img src="../assets/icon.webp" alt="ShopCart icon" /> */}
-        <h1>ShopCart - React</h1>
+        <h1 style={{color: "#333"}}>ShopCart - React</h1>
       </section>
       <Filters />
     </header>

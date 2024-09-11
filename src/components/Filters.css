@@ -4,9 +4,15 @@
     justify-content: space-between;
     font-size: 14px;
     font-weight: 700;
+    color: #333;
   }
   
   .filters > div {
     display: flex;
     gap: 1rem;
+  }
+  
+  select {
+    background-color: #fff;
+    color: #333;
   }
